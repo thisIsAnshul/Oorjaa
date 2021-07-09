@@ -1,0 +1,61 @@
+$('#loginSubmit').click(function() {
+        	//alert("login click");
+        	 event.preventDefault();
+        	//alert("dsfds");
+                		        		
+        		var userName = $('#userName').val();
+        		//alert("userName----"+userName);
+        		var password = $('#userPass').val();
+        		var flag = true;
+        		if (userName == "") {
+        			 $('#userName').tooltip('dispose').tooltip({placement: 'right', title: 'Please Enter Username'}).tooltip('show');
+        			return false;
+        		} else if (password == "") {
+       			 $('#userPass').tooltip('dispose').tooltip({placement: 'right', title: 'Please Enter password'}).tooltip('show');
+        			return false;}
+        		
+        		 else {
+        			var r = $('#jcaptcha').val();
+        			//alert(r);
+        			$.ajax({
+        						
+        							
+        								var tokenValue ="";
+        								var userName = $('#userName').val();
+        								var password = $('#userPass').val();
+        								//alert(userName);
+        								//alert(password);
+        								var struserid = userName.toUpperCase();
+        								
+        								struserid = struserid.trim();
+        								
+        								var encUid = DataEncoder.encode(struserid);
+        								
+        								var strPass = password + struserid;
+        								
+        								var hash = CryptoJS.SHA1(strPass);
+        								var hashedPassword = CryptoJS.SHA1(tokenValue
+        										+ hash);
+        								
+        								//alert(encUid);
+        								var x = $("input[name=_csrf]").val();
+        								//alert("121212==="+x);
+        							document.getElementById("userPass").value = hashedPassword+x;
+        							document.getElementById("userName").value = encUid;
+        								
+        								document.getElementById("loginForm").action = "/DHR/Login";
+           								document.getElementById("loginForm").method = "POST";
+           								document.getElementById("loginForm").submit();    								
+        							
+        						},
+        						error : function() {
+        										alert("Kindly refresh page");
+        						
+        						}
+
+        					});
+        		}
+        	
+
+        	
+        });
